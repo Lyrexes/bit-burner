@@ -35,7 +35,7 @@ export async function main(ns) {
         ns.exit();
     }
     //starting setup.js script on each server!
-    for(let server of serverList) {
+    for(let server of rootServerList) {
         const availableRam = (ns.getServerRam(server)[0] - ns.getServerRam(server)[1]);
         const maxThreads = Math.floor(availableRam / ns.getScriptRam(scripts.setup));
         await ns.exec(scripts.setup, server, maxThreads, target);
