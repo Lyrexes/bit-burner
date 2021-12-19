@@ -41,10 +41,12 @@ export async function main(ns) {
         await ns.exec(scripts.setup, server, maxThreads, target);
     }
 
-    while(ns.getServerMaxMoney(target) != ns.getServerMoneyAvailable(target)
-     || ns.getServerMinSecurityLevel(target) != ns.getServerSecurityLevel(target)) {
+    while(ns.getServerMaxMoney(target) >= ns.getServerMoneyAvailable(target)
+     || ns.getServerMinSecurityLevel(target) <= ns.getServerSecurityLevel(target)) {
         await ns.sleep(1);
     }
     botnetList.forEach((bot) => ns.killall(bot));
 
+    const availableRam = util.getServerListRam(ns, botnetList);
+    
 }
