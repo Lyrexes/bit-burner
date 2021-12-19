@@ -41,7 +41,7 @@ export async function main(ns) {
         await ns.exec(scripts.setup, server, maxThreads, target);
     }
 
-    while(ns.getserverMaxMoney(target) != ns.getServerMoneyAvailable(target)
+    while(ns.getServerMaxMoney(target) != ns.getServerMoneyAvailable(target)
      && ns.getServerMinSecurityLevel(target) != ns.getServerSecurityLevel(target)) {
         await sleep(1);
     }
