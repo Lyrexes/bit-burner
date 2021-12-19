@@ -59,11 +59,6 @@ export function execOnServers(ns, script, serverList, numThreads=1, ...args) {
     }
 }
 
-export function killAllServers(ns, serverList) {
-    for(let server of serverList) {
-        ns.killall(server)
-    }
-}
 
 export async function copyPayload(ns, serverList, files, src="home") {
     let success = true;
