@@ -43,6 +43,16 @@ export function getBestServer(ns, hostnames, timeThreshold=300000) {
     return servers[weakenTime.indexOf(Math.min(...weakenTime))];
 }
 
+export function doFilesExist(ns, serverList, files) {
+    let exist = true;
+    for(let server of serverList) {
+        for(let file of files) {
+            exist = exist && ns.fileExists(file, server);
+        }
+    }
+    return exist;
+}
+
 export function copyPayload(ns, serverList, src="home", files) {
     let success = true;
     for(let server of serverList) {
