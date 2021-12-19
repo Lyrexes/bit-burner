@@ -42,13 +42,13 @@ export async function main(ns) {
         await ns.exec(scripts.setup, server, maxThreads, target);
     }
 
-    while(ns.getServerMaxMoney(target) >= ns.getServerMoneyAvailable(target)
-     || ns.getServerMinSecurityLevel(target) <= ns.getServerSecurityLevel(target)) {
+    while(ns.getServerMaxMoney(target) > ns.getServerMoneyAvailable(target)
+     || ns.getServerMinSecurityLevel(target) < ns.getServerSecurityLevel(target)) {
         await ns.sleep(1);
     }
     botnetList.forEach((bot) => ns.killall(bot));
 
-    const threadCounts = getScriptThreadCounts(ns, attackStrength, target);
+    const threadCounts = getScriptThreadCounts(ns, attackStrength, target, util.getServerListRam(ns, botnetList));
 
     ns.tprint("=".repeat(20));
     ns.tprint("Hack threads: t=" + threadCounts.hackThreads);
@@ -58,8 +58,8 @@ export async function main(ns) {
 }
 
 
-function getScriptThreadCounts(ns, attackStrength, target) {
-    const availableRam = util.getServerListRam(ns, botnetList);
+function getScriptThreadCounts(ns, attackStrength, target, ram) {
+    const availableRam = ram;
     const singleThreadMoneyPercent = ns.hackAnalyze(target);
     const weakenConstant = 0.05;
 
