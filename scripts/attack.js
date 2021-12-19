@@ -15,7 +15,7 @@ export async function main(ns) {
     util.tryNukeAllServer(ns);
     const target = util.getBestServer(ns, util.getHackableServers(ns));
     const filesToCopy = Object.entries(scripts).map(( [k, v] ) =>  v);
-    const rootServerList = util.getRootServerList(ns);
+    const botnetList = util.getRootServerList(ns).filter((server) => ns.getServerMaxRam(server) > 0);
 
     if(!util.doFilesExist(ns, ["home"], filesToCopy)) {
         ns.tprint("=".repeat(20));
@@ -24,7 +24,7 @@ export async function main(ns) {
         ns.exit();
     }
 
-    if(await util.copyPayload(ns, rootServerList, filesToCopy)) {
+    if(await util.copyPayload(ns, botnetList, filesToCopy)) {
         ns.tprint("=".repeat(20));
         ns.tprint("Succesfully deployed payload!")
         ns.tprint("=".repeat(20));
@@ -35,7 +35,7 @@ export async function main(ns) {
         ns.exit();
     }
     //starting setup.js script on each server!
-    for(let server of rootServerList) {
+    for(let server of botnetList) {
         const availableRam = (ns.getServerRam(server)[0] - ns.getServerRam(server)[1]);
         const maxThreads = Math.floor(availableRam / ns.getScriptRam(scripts.setup));
         await ns.exec(scripts.setup, server, maxThreads, target);
