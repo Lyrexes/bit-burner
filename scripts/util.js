@@ -53,6 +53,13 @@ export function doFilesExist(ns, serverList, files) {
     return exist;
 }
 
+export function execOnServers(ns, script, serverList, numThreads=1, ...args) {
+    for(let server of serverList) {
+        ns.exec(script, server, numThreads, ...args);
+    }
+}
+
+
 export function copyPayload(ns, serverList, src="home", files) {
     let success = true;
     for(let server of serverList) {
