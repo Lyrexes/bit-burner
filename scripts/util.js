@@ -65,11 +65,11 @@ export function killAllServers(ns, serverList) {
     }
 }
 
-export function copyPayload(ns, serverList, src="home", files) {
+export function copyPayload(ns, serverList, files, src="home") {
     let success = true;
     for(let server of serverList) {
         for(let file of files) {
-            success = succes && ns.scp(file, src, server);
+            success = success && ns.scp(file, src, server);
         }
     }
     return success;
