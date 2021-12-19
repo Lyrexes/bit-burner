@@ -65,7 +65,7 @@ function getScriptThreadCounts(ns, attackStrength, target, ram) {
     const weakenConstant = 0.05;
 
     let usedRam = 0;
-    let currentHackCount = Math.floor(attackStrength / singleThreadMoneyPercent);
+    let currentHackCount = Math.floor(attackStrength / singleThreadMoneyPercent) + 1;
     let currentGrowCount = 0;
     let currentWeakenCount = 0;
     let remainingMoney = 0;
