@@ -65,7 +65,7 @@ export function killAllServers(ns, serverList) {
     }
 }
 
-export function copyPayload(ns, serverList, files, src="home") {
+export async function copyPayload(ns, serverList, files, src="home") {
     let success = true;
     for(let server of serverList) {
         for(let file of files) {

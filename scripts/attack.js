@@ -24,7 +24,7 @@ export async function main(ns) {
         ns.exit();
     }
 
-    if(util.copyPayload(ns, rootServerList, filesToCopy)) {
+    if(await util.copyPayload(ns, rootServerList, filesToCopy)) {
         ns.tprint("=".repeat(20));
         ns.tprint("Succesfully deployed payload!")
         ns.tprint("=".repeat(20));
