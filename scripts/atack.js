@@ -11,6 +11,7 @@ const scripts = {
 export async function main(ns) {
     //Auto buy darkweb scripts
     //Auto buy server
+    util.killAllServers(ns, getServerList(ns));
     util.tryNukeAllServer(ns);
     const target = util.getBestServer(ns, util.getHackableServers(ns));
     const filesToCopy = Object.entries(scripts).map(( [k, v] ) =>  v);
