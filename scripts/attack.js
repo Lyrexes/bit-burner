@@ -81,7 +81,7 @@ function getScriptThreadCounts(ns, attackStrength, target, ram) {
                             + ns.growthAnalyzeSecurity(currentGrowCount)) / weakenConstant;
 
         usedRam = currentHackCount * ns.getScriptRam(scripts.hack) 
-                + currentGrowCount * ns.getScriptrRam(scripts.grow)
+                + currentGrowCount * ns.getScriptRam(scripts.grow)
                 + currentWeakenCount * ns.getScriptRam(scripts.weaken);
 
         currentHackCount--;
