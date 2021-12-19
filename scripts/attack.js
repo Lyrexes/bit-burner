@@ -35,6 +35,7 @@ export async function main(ns) {
         ns.tprint("=".repeat(20));
         ns.exit();
     }
+    ns.tprint("running setup for target: " + target);
     //starting setup.js script on each server!
     for(let server of botnetList) {
         const availableRam = (ns.getServerRam(server)[0] - ns.getServerRam(server)[1]);
@@ -88,8 +89,8 @@ function getScriptThreadCounts(ns, attackStrength, target, ram) {
     }while(availableRam <= usedRam);
 
     return {
-        "hackThreads": currentHackCount,
-        "growThreads": currentGrowCount,
-        "weakenThreads": currentWeakenCount
+        "hackThreads": Math.floor(currentHackCount),
+        "growThreads": Math.ceil(currentGrowCount),
+        "weakenThreads": Math.ceil(currentWeakenCount)
     }
 }
