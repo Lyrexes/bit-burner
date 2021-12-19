@@ -38,7 +38,7 @@ export async function main(ns) {
     for(let server of serverList) {
         const availableRam = (ns.getServerRam(server)[0] - ns.getServerRam(server)[1]);
         const maxThreads = Math.floor(availableRam / ns.getScriptRam(scripts.setup));
-        ns.exec(scripts.setup, server, maxThreads, target);
+        await ns.exec(scripts.setup, server, maxThreads, target);
     }
 
 }
