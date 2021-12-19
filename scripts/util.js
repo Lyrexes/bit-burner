@@ -59,7 +59,7 @@ export function execOnServers(ns, script, serverList, numThreads=1, ...args) {
     }
 }
 
-export function killAllSevers(ns, serverList) {
+export function killAllServers(ns, serverList) {
     for(let server of serverList) {
         ns.killall(server)
     }
