@@ -69,7 +69,7 @@ export function copyPayload(ns, serverList, files, src="home") {
     let success = true;
     for(let server of serverList) {
         for(let file of files) {
-            success = success && ns.scp(file, src, server);
+            success = success && await ns.scp(file, src, server);
         }
     }
     return success;
