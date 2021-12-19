@@ -41,4 +41,10 @@ export async function main(ns) {
         await ns.exec(scripts.setup, server, maxThreads, target);
     }
 
+    while(ns.getserverMaxMoney(target) != ns.getServerMoneyAvailable(target)
+     && ns.getServerMinSecurityLevel(target) != ns.getServerSecurityLevel(target)) {
+        await sleep(1);
+    }
+    botnetList.forEach((bot) => ns.killall(bot));
+
 }
