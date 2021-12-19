@@ -43,7 +43,7 @@ export async function main(ns) {
 
     while(ns.getServerMaxMoney(target) != ns.getServerMoneyAvailable(target)
      && ns.getServerMinSecurityLevel(target) != ns.getServerSecurityLevel(target)) {
-        await sleep(1);
+        await ns.sleep(1);
     }
     botnetList.forEach((bot) => ns.killall(bot));
 
