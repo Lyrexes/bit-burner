@@ -5,7 +5,6 @@ export async function main(ns) {
 	ns.tprint(server.length)
 	//server.forEach(item => ns.tprint(item));
     ns.tprint(getBestServer(ns, getHackableServers(ns)));
-    
 }
 export function getServerList(ns) {
 	return recursiveServerList([], "home", ns).sort();
@@ -66,6 +65,8 @@ export function getServerListRam(ns, serverList) {
     }
     return ram;
 }
+
+
 
 export async function copyPayload(ns, serverList, files, src="home") {
     let success = true;

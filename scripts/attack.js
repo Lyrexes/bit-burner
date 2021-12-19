@@ -13,6 +13,7 @@ export async function main(ns) {
     //Auto buy server
     util.getServerList(ns).forEach((server) => ns.killall(server));
     util.tryNukeAllServer(ns);
+    const attackStrength = 0.9; //Percentage of money u will steal
     const target = util.getBestServer(ns, util.getHackableServers(ns));
     const filesToCopy = Object.entries(scripts).map(( [k, v] ) =>  v);
     const botnetList = util.getRootServerList(ns).filter((server) => ns.getServerMaxRam(server) > 0);
@@ -47,6 +48,48 @@ export async function main(ns) {
     }
     botnetList.forEach((bot) => ns.killall(bot));
 
+    const threadCounts = getScriptThreadCounts(ns, attackStrength, target);
+
+    ns.tprint("=".repeat(20));
+    ns.tprint("Hack threads: t=" + threadCounts.hackThreads);
+    ns.tprint("Weaken threads: t=" + threadCounts.weakenThreads);
+    ns.tprint("Grow threads: t="+threadCounts.growThreads);
+    ns.tprint("=".repeat(20));
+}
+
+
+function getScriptThreadCounts(ns, attackStrength, target) {
     const availableRam = util.getServerListRam(ns, botnetList);
-    
+    const singleThreadMoneyPercent = ns.hackAnalyze(target);
+    const weakenConstant = 0.05;
+
+    let usedRam = 0;
+    let currentHackCount = Math.floor(attackStrength / singleThreadMoneyPercent);
+    let currentGrowCount = 0;
+    let currentWeakenCount = 0;
+    let remainingMoney = 0;
+    let growthMultiplierNeeded = 0;
+
+    do  {
+        remainingMoney = (1 - attackStrength) * ns.getServerMoneyAvailable(target);
+
+        growthMultiplierNeeded = Math.ceil(ns.getServerMaxMoney(target) / remainingMoney * 1000) / 1000;
+
+        currentGrowCount = ns.growthAnalyze(target, growthMultiplierNeeded);
+
+        currentWeakenCount = (ns.hackAnalyzeSecurity(currentHackCount)
+                            + ns.growthAnalyzeSecurtiy(currentGrowCount)) / weakenConstant;
+
+        usedRam = currentHackCount * ns.getServerRam(scripts.hack) 
+                + currentGrowCount * ns.getServerRam(scripts.grow)
+                + currentWeakenCount * ns.getServerRam(scripts.weaken);
+
+        currentHackCount--;
+    }while(availableRam <= usedRam);
+
+    return {
+        "hackThreads": currentHackCount,
+        "growThreads": currentGrowCount,
+        "weakenThreads": currentWeakenCount
+    }
 }
