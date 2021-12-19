@@ -59,6 +59,13 @@ export function execOnServers(ns, script, serverList, numThreads=1, ...args) {
     }
 }
 
+export function getServerListRam(ns, serverList) {
+    let ram = 0;
+    for(let server of serverList) {
+        ram += ns.getServerMaxRam(server);
+    }
+    return ram;
+}
 
 export async function copyPayload(ns, serverList, files, src="home") {
     let success = true;
