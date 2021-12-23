@@ -1,6 +1,7 @@
 import * as util from "util.js"
-/** @param {NS} ns **/
 
+/** @param {NS} ns **/
+/** @param {import(".").NS } ns */
 const scripts = {
     "setup": "setup.js",
     "hack": "hack.js",
@@ -16,7 +17,7 @@ export async function main(ns) {
     const attackStrength = 0.9; //Percentage of money u will steal
     const target = util.getBestServer(ns, util.getHackableServers(ns));
     const filesToCopy = Object.entries(scripts).map(( [k, v] ) =>  v);
-    const botnetList = util.getRootServerList(ns).filter((server) => ns.getServerMaxRam(server) > 0);
+    const botnetList = util.getRootServerList(ns).filter((server) => ns.getServerMaxRam(server) > 0).push("home");
 
     if(!util.doFilesExist(ns, ["home"], filesToCopy)) {
         ns.tprint("=".repeat(20));
@@ -38,7 +39,9 @@ export async function main(ns) {
     ns.tprint("running setup for target: " + target);
     //starting setup.js script on each server!
     for(let server of botnetList) {
-        const availableRam = (ns.getServerRam(server)[0] - ns.getServerRam(server)[1]);
+        let availableRam = (ns.getServerRam(server)[0] - ns.getServerRam(server)[1]);
+        if(server == "home")
+            availableRam *= 0.8;
         const maxThreads = Math.floor(availableRam / ns.getScriptRam(scripts.setup));
         await ns.exec(scripts.setup, server, maxThreads, target);
     }
@@ -54,8 +57,10 @@ export async function main(ns) {
     ns.tprint("=".repeat(20));
     ns.tprint("Hack threads: t=" + threadCounts.hackThreads);
     ns.tprint("Weaken threads: t=" + threadCounts.weakenThreads);
-    ns.tprint("Grow threads: t="+threadCounts.growThreads);
+    ns.tprint("Grow threads: t="+ threadCounts.growThreads);
     ns.tprint("=".repeat(20));
+
+
 }
 
 

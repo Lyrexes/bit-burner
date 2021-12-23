@@ -1,4 +1,4 @@
-/** @param {NS} ns **/
+/** @param {NS} ns **//** @param {import(".").NS } ns */
 export async function main(ns) {
     const target = ns.args[0];
     while(ns.getServerMoneyAvailable(target) < ns.getServerMaxMoney(target)) {
